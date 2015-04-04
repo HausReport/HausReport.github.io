@@ -1,0 +1,315 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.js"></script>
+
+
+
+    <title>The Haus Report</title>
+
+
+    <script type="text/javascript">
+        function minDistance(x, y, z, p1) {
+            var d1 = Math.sqrt(Math.pow((x - p1.firstX), 2) + Math.pow((y - p1.firstY), 2) + Math.pow((z - p1.firstZ), 2));
+            var d2 = Math.sqrt(Math.pow((x - p1.secondX), 2) + Math.pow((y - p1.secondY), 2) + Math.pow((z - p1.secondZ), 2));
+            return Math.min(d1, d2);
+        }
+
+        $(function() {
+            $("#slider-holdSize").slider({
+                range: "max",
+                min: 8,
+                max: 600,
+                value: 538,
+                step: 1,
+                slide: function(event, ui) {
+                    $("#holdSizeAmount").val(ui.value);
+                }
+            });
+            $("#holdSizeAmount").val($("#slider-holdSize").slider("value"));
+        });
+
+
+        $(function() {
+            $("#slider-jumpRange").slider({
+                range: "max",
+                min: 8,
+                max: 30,
+                value: 12.4,
+                step: .1,
+                slide: function(event, ui) {
+                    $("#jumpRangeAmount").val(ui.value);
+                }
+            });
+            $("#jumpRangeAmount").val($("#slider-jumpRange").slider("value"));
+        });
+
+
+        $(function() {
+            $("#slider-maxDistanceFromYou").slider({
+                range: "max",
+                min: 20,
+                max: 200,
+                value: 80,
+                step: 1,
+                slide: function(event, ui) {
+                    $("#maxDistanceFromYou").val(ui.value);
+                }
+            });
+            $("#maxDistanceFromYou").val($("#slider-maxDistanceFromYou").slider("value"));
+        });
+
+        $(function() {
+            $("#slider-maxRouteDistance").slider({
+                range: "max",
+                min: 20,
+                max: 200,
+                value: 30,
+                step: 1,
+                slide: function(event, ui) {
+                    $("#maxRouteDistance").val(ui.value);
+                }
+            });
+            $("#maxRouteDistance").val($("#slider-maxRouteDistance").slider("value"));
+        });
+
+        $(document).ready(function() {
+            $("#myTable").tablesorter();
+        });
+
+        function printTable() {
+            var jumpRange = 12.29;
+            var cargoCapacity = 528;
+            var x = 66.5; 
+            var y = -109.25;
+            var z = 1.875;
+            var filterLarge = Boolean(document.getElementById("largeShip").checked);
+            //var filterLarge = Boolean($("largeShip").prop("checked", true));
+
+
+            //var out ="<table id='myTable' class='tablesorter' border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>";
+            var out = "<thead>";
+            out += "<tr>";
+            out += "<th colspan=\"7\">First Station</th>";
+            out += "<th colspan=\"6\">Second Station</th>";
+            out += "<th colspan=\"6\">Route Statistics</th>";
+            out += "</tr>";
+
+            out += "<tr>";
+            out += "<th>#</th>";
+            out += "<th>Starting at</th>";
+            out += "<th>Buy Commodity</th>";
+            out += "<th>Buy</th>";
+            out += "<th>Sell</th>";
+            out += "<th>Profit</th>";
+            out += "<th>Last Updated</th>";
+            out += "<th>Starting at</th>";
+            out += "<th>Buy Commodity</th>";
+            out += "<th>Buy</th>";
+            out += "<th>Sell</th>";
+            out += "<th>Profit</th>";
+            out += "<th>Last Updated</th>";
+            out += "<th>DistFU</th>";
+            out += "<th>Rt.Dist</th>";
+            out += "<th>Est. Jumps</th>";
+            out += "<th>Confidence</th>";
+            out += "<th>PPT</th>";
+
+            out += "<th>PPH</th>";
+            out += "</tr>";
+
+            out += "</thead>";
+            out += "<tbody>";
+
+            $.getJSON('hr.json', function(data) {
+
+                //var yes = Boolean(1===1);
+                for (var i in data.trades) {
+                    //if( (!filterLarge) || (filterLarge && (data.trades[i].landingPads.equals("L"))))
+                    if ((!filterLarge) || (filterLarge && (data.trades[i].landingPads == "L"))) {
+
+                        var maxDist = $('#slider-maxRouteDistance').slider("option", "value");
+                        if (data.trades[i].distance <= maxDist) {
+                        var maxDistFU = $('#slider-maxDistanceFromYou').slider("option", "value");
+                        if(minDistance(x, y, z, data.trades[i])<=maxDistFU ){
+
+                            out += "<tr><td>" +
+                                data.trades[i].id +
+                                "&nbsp;" + data.trades[i].landingPads +
+                                "</td><td>" +
+                                data.trades[i].firstSystem +
+                                " - " + data.trades[i].firstStation +
+                                " (" + data.trades[i].firstDist + ") " +
+                                "</td><td>" +
+                                data.trades[i].firstCommodity +
+                                "</td><td>" +
+                                data.trades[i].firstBuy +
+                                "</td><td>" +
+                                data.trades[i].firstSell +
+                                "</td><td>" +
+                                data.trades[i].firstProfit +
+                                "</td><td>" +
+                                data.trades[i].firstUpdated +
+                                "</td><td>" +
+
+                                data.trades[i].secondSystem +
+                                " - " + data.trades[i].secondStation +
+                                " (" + data.trades[i].secondDist + ") " +
+                                "</td><td>" +
+                                data.trades[i].secondCommodity +
+                                "</td><td>" +
+                                data.trades[i].secondBuy +
+                                "</td><td>" +
+                                data.trades[i].secondSell +
+                                "</td><td>" +
+                                data.trades[i].secondProfit +
+                                "</td><td>" +
+                                data.trades[i].secondUpdated +
+                                "</td><td>" +
+
+                                //minDistance(27.78125,-83.0,16.6875,data.trades[i]) +
+                                Math.ceil(minDistance(x, y, z, data.trades[i])) +
+                                "</td><td>" +
+
+                                data.trades[i].distance +
+                                "</td><td>" +
+
+                                Math.ceil(data.trades[i].distance / jumpRange) +
+                                "</td><td>" +
+                                data.trades[i].confidence +
+                                "</td><td>" +
+                                data.trades[i].ppt +
+                                "</td><td>" +
+
+                                (data.trades[i].ppt * cargoCapacity).toLocaleString() +
+                                "</td></tr>";
+                        }}
+                    }
+                }
+                out += "</tbody>";
+                //out += "</table>";
+
+                document.getElementById("myTable").innerHTML = out;
+
+                $("#myTable").tablesorter();
+            });
+        }
+    </script>
+
+</head>
+
+<body>
+
+
+    <!-- ----------------------------------------------------------------- -->
+
+    <form class="niceform">
+        <fieldset>
+            <legend>Preferences</legend>
+            <dl>
+                <dt><label for="locn">Current Location:</label></dt>
+                <dd>
+                    <label for="x">X:</label>
+                    <input type="text" name="x" id="x" size="8" maxlength="8" value="27.78125" />
+                    <label for="y">Y:</label>
+                    <input type="text" name="y" id="y" size="8" maxlength="8" value="83.0" />
+                    <label for="z">Z:</label>
+                    <input type="text" name="z" id="z" size="8" maxlength="8" value="16.6875" />
+                </dd>
+            </dl>
+
+            <dl>
+                <dt><label for="color">Ship Specifics:</label></dt>
+                <dd>
+                    <label for="locn">Hold Size:</label>
+                    <input type="text" id="holdSizeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+                    <div id="slider-holdSize"></div>
+                    <br/>
+
+                    <label for="locn">Jump Range:</label>
+                    <input type="text" id="jumpRangeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+                    <div id="slider-jumpRange"></div>
+
+
+                    <label for="locn">Landing Pad Size:</label>
+                    <input type="radio" name="shipSize" id="largeShip" value="Large" />
+                    <label for="colorBlue" class="opt">Large</label>
+                    <input type="radio" name="shipSize" id="mediumShip" value="Medium" />
+                    <label for="colorRed" class="opt">Medium/Small</label>
+                </dd>
+
+                <dt><label for="color">Route Specifics:</label></dt>
+                <dd>
+                    <label for="locn">Max Distance From You:</label>
+                    <input type="text" id="maxDistanceFromYou" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+                    <div id="slider-maxDistanceFromYou"></div>
+                    <br/>
+
+                    <label for="locn">Route Distance:</label>
+                    <input type="text" id="maxRouteDistance" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+                    <div id="slider-maxRouteDistance"></div>
+
+                </dd>
+            </dl>
+
+    </form>
+
+
+    <button onclick="printTable(); ; return false;">Check value</button>
+
+    <!-- ----------------------------------------------------------------- -->
+
+    <table id='myTable' class='tablesorter' border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>
+        <thead>
+            <tr>
+                <th colspan=\ "7\">First Station</th>
+                <th colspan=\ "6\">Second Station</th>
+                <th colspan=\ "6\">Route Statistics</th>
+            </tr>
+
+            <tr>
+                <th>#</th>
+                <th>Starting at</th>
+                <th>Buy Commodity</th>
+                <th>Buy</th>
+                <th>Sell</th>
+                <th>Profit</th>
+                <th>Last Updated</th>
+                <th>Starting at</th>
+                <th>Buy Commodity</th>
+                <th>Buy</th>
+                <th>Sell</th>
+                <th>Profit</th>
+                <th>Last Updated</th>
+                <th>DistFU</th>
+                <th>Rt.Dist</th>
+                <th>Est. Jumps</th>
+                <th>Confidence</th>
+                <th>PPT</th>
+
+                <th>PPH</th>
+            </tr>
+
+        </thead>
+        <tbody>
+    </table>
+
+
+    <!-- div id="placeholder"></div -->
+    <script>
+        printTable();
+    </script>
+
+</body>
+
+</html>
