@@ -20,7 +20,7 @@
 
     <script type="text/javascript">
 
-//touch
+
         function minDistance(x, y, z, p1) {
             var d1 = Math.sqrt(Math.pow((x - p1.firstX), 2) + Math.pow((y - p1.firstY), 2) + Math.pow((z - p1.firstZ), 2));
             var d2 = Math.sqrt(Math.pow((x - p1.secondX), 2) + Math.pow((y - p1.secondY), 2) + Math.pow((z - p1.secondZ), 2));
@@ -140,12 +140,10 @@
 
                 <dt><label for="locn">Landing Pad Size:</dt>
                  <dd>
-			<div class="ui-widget">
-                    <input type="radio" name="shipSize" id="largeShip" value="Large" />
-                    <label for="colorBlue" class="opt">Large</label>
-                    <input type="radio" name="shipSize" id="mediumShip" value="Medium" />
-                    <label for="colorRed" class="opt">Medium/Small</label>
-		    </div>
+			<!-- div class="ui-widget" -->
+                    <input type="radio" name="shipSize" id="largeShip" value="Large" />Large
+                    <input type="radio" name="shipSize" id="mediumShip" value="Medium" />Medium
+		    <!-- /div -->
                 </dd>
    </fieldset>
 </td>
@@ -166,18 +164,21 @@
 
         <fieldset>
             <legend>User Interface</legend>
-		<input type="checkbox" name="vehicle" value="Bike">Show route numbers<br>
-		<input type="checkbox" name="vehicle" value="Bike">Show prices<br>
-		<input type="checkbox" name="vehicle" value="Bike">Show dates<br>
-		<input type="checkbox" name="vehicle" value="Bike">Show confidence<br>
+		<input type="checkbox" id="showRouteNumbers" name="showRouteNumbers" value="Bike">Show route numbers<br>
+		<input type="checkbox" id="showPrices" name="showPrices" value="Bike">Show prices<br>
+		<input type="checkbox" id="showDates" name="showDates" value="Bike">Show dates<br>
+		<input type="checkbox" id="showConfidence" name="showConfidence" value="Bike">Show confidence<br>
         </fieldset>
+     <div align="right">
+    <button onclick="printTable(); return false;">Search for routes!</button>
+    </div>
 </div>
     <!--/form -->
 </td>
 </tr>
 </table>
 
-    <button onclick="printTable(); ; return false;">Search for routes!</button>
+
 
     <!-- ----------------------------------------------------------------- -->
 
@@ -233,29 +234,68 @@
             //var out ="<table id='myTable' class='tablesorter' border='1' cellpadding='1' cellspacing='1' style='width: 100%;'>";
             var out = "<thead>";
             out += "<tr>";
-            out += "<th colspan=\"7\">First Station</th>";
-            out += "<th colspan=\"6\">Second Station</th>";
-            out += "<th colspan=\"6\">Route Statistics</th>";
+var fsLen = 3;
+if( $('#showPrices').prop('checked')){
+  fsLen = fsLen + 2;
+}
+if( $('#showRouteNumbers').prop('checked')){
+  fsLen = fsLen + 1;
+}
+showRouteNumbers
+
+if( $('#showDates').prop('checked')){
+  fsLen = fsLen + 1;
+}
+showDates
+
+            out += "<th colspan=\""+ fsLen + "\">First Station</th>";
+var ssLen = 3;
+if( $('#showPrices').prop('checked')){
+  ssLen = ssLen + 2;
+}
+if( $('#showDates').prop('checked')){
+  ssLen = ssLen + 1;
+}
+
+            out += "<th colspan=\"" + ssLen + "\">Second Station</th>";
+
+var rsLen = 5;
+if( $('#showConfidence').prop('checked')){
+  rsLen = rsLen + 1;
+}
+            out += "<th colspan=\"" + rsLen +"\">Route Statistics</th>";
             out += "</tr>";
 
             out += "<tr>";
+if( $('#showRouteNumbers').prop('checked')){
             out += "<th>#</th>";
+}
             out += "<th>Starting at</th>";
             out += "<th>Buy Commodity</th>";
+if( $('#showPrices').prop('checked')){
             out += "<th>Buy</th>";
             out += "<th>Sell</th>";
+}
             out += "<th>Profit</th>";
+if( $('#showDates').prop('checked')){
             out += "<th>Last Updated</th>";
+}
             out += "<th>Starting at</th>";
             out += "<th>Buy Commodity</th>";
+if( $('#showPrices').prop('checked')){
             out += "<th>Buy</th>";
             out += "<th>Sell</th>";
+}
             out += "<th>Profit</th>";
+if( $('#showDates').prop('checked')){
             out += "<th>Last Updated</th>";
+}
             out += "<th>Dist.</th>";
             out += "<th>Length</th>";
             out += "<th>Est. Jumps</th>";
-            out += "<th>Conf.</th>";
+            if( $('#showConfidence').prop('checked')){
+               out += "<th>Conf.</th>";
+            }
             out += "<th>P/T</th>";
 
             out += "<th>P/L</th>";
@@ -276,52 +316,68 @@
                         var maxDistFU = $('#slider-maxDistanceFromYou').slider("option", "value");
                         if(minDistance(x, y, z, data.trades[i])<=maxDistFU ){
 
-                            out += "<tr><td>" +
-                                data.trades[i].id +
+                            out += "<tr><td>";
+if( $('#showRouteNumbers').prop('checked')){
+                                out = out + data.trades[i].id +
                                 "&nbsp;" + data.trades[i].landingPads +
-                                "</td><td>" +
-                                data.trades[i].firstSystem +
+                                "</td><td>";
+}
+                                out = out + data.trades[i].firstSystem +
                                 " - " + data.trades[i].firstStation +
                                 " (" + data.trades[i].firstDist + ") " +
                                 "</td><td>" +
                                 data.trades[i].firstCommodity +
-                                "</td><td align=\"right\">" +
-                                (data.trades[i].firstBuy).toLocaleString() +
+                                "</td><td align=\"right\">";
+
+if( $('#showPrices').prop('checked')){
+                                out = out + (data.trades[i].firstBuy).toLocaleString() +
                                 "</td><td align=\"right\">" +
                                 (data.trades[i].firstSell).toLocaleString() +
-                                "</td><td align=\"right\">" +
-                                (data.trades[i].firstProfit).toLocaleString() +
-                                "</td><td>" +
-                                data.trades[i].firstUpdated +
-                                "</td><td>" +
+                                "</td><td align=\"right\">";
+}
 
-                                data.trades[i].secondSystem +
+                                out = out + (data.trades[i].firstProfit).toLocaleString() +
+                                "</td><td>";
+if( $('#showDates').prop('checked')){
+                                out = out + data.trades[i].firstUpdated +
+                                "</td><td>";
+}
+                                out = out + data.trades[i].secondSystem +
                                 " - " + data.trades[i].secondStation +
                                 " (" + data.trades[i].secondDist + ") " +
                                 "</td><td>" +
                                 data.trades[i].secondCommodity +
-                                "</td><td align=\"right\">" +
-                                (data.trades[i].secondBuy).toLocaleString() +
+                                "</td><td align=\"right\">";
+if( $('#showPrices').prop('checked')){
+                                out = out + (data.trades[i].secondBuy).toLocaleString() +
                                 "</td><td align=\"right\">" +
                                 (data.trades[i].secondSell).toLocaleString() +
-                                "</td><td align=\"right\">" +
-                                (data.trades[i].secondProfit).toLocaleString() +
-                                "</td><td>" +
-                                data.trades[i].secondUpdated +
-                                "</td><td>" +
+                                "</td><td align=\"right\">";
+}
 
+                                out = out + (data.trades[i].secondProfit).toLocaleString() +
+                                "</td><td>";
+
+if( $('#showDates').prop('checked')){
+                                out = out + data.trades[i].secondUpdated +
+                                "</td><td>";
+}
                                 //minDistance(27.78125,-83.0,16.6875,data.trades[i]) +
-                                Math.ceil(minDistance(x, y, z, data.trades[i])) +
+                                out = out + Math.ceil(minDistance(x, y, z, data.trades[i])) +
                                 "</td><td>" +
 
                                 data.trades[i].distance +
                                 "</td><td>" +
 
                                 Math.ceil(data.trades[i].distance / jumpRange) +
-                                "</td><td>" +
-                                data.trades[i].confidence +
-                                "</td><td align=\"right\">" +
-                                (data.trades[i].ppt).toLocaleString() +
+                                "</td><td>";
+
+                                if( $('#showConfidence').prop('checked')){
+                                   out = out + data.trades[i].confidence +
+                                   "</td><td align=\"right\">";
+                                }
+
+                                out = out + (data.trades[i].ppt).toLocaleString() +
                                 "</td><td align=\"right\">" +
 
                                 (data.trades[i].ppt * cargoCapacity).toLocaleString() +
@@ -363,6 +419,19 @@ test();
     </script>
 
 </div>
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-61576455-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
 </body>
 
 </html>
