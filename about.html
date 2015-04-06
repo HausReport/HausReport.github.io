@@ -1,0 +1,68 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <title>About this site</title>
+</head>
+
+<body>
+<div id="nav-container"></div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+$('#nav-container').load('navbar.html');
+});
+</script>
+
+
+<dl>
+  <dt> What is this? </dt>
+  <dd> A program that searches for (possibly) above-average trade routes for the game Elite:Dangerous.</dd>
+
+  <dt> Where does the data come from? </dt>
+  <dd> Players who choose to upload data to the Elite Dangerous Data Network (EDDN) via www.eddb.io/api </dd>
+
+  <dt> Are these routes guaranteed to be good? </dt>
+  <dd> Nope - they have been identified by a computer program working on possibly flawed data.  Your milage may vary. </dd>
+
+  <dt> Can I find out more about a route before going personally to check it out? </dt>
+  <dd> Yes, I often use http://elitetradingtool.co.uk, http://dangerouscitizen.co.uk, http://eddb.io/system, and https://cmdr.club/routes/ before travelling a long distance to try a new route.</dd>
+
+  <dt> What's "confidence"?</dt>
+  <dd> A score between 0 and 1 which combines how recent the data was uploaded, and supply/demand numbers at the stations in the route.</dd>
+
+  <dt> What's the difference between "distance" and "length"?</dt>
+  <dd> Length is the length of the route, distance is how far the closest station in the route is from your current location.</dd>
+
+  <dt> ZOMG! The number of jumps is wrong!</dt>
+  <dd> It's only an estimate.  https://cmdr.club/routes/ can give an upper limit to the number of jumps actually in a route.</dd>
+
+  <dt> How are routes numbered?</dt>
+  <dd> By estimated credits per ton per hour for a Python with a 17.3ly hyperspace jump range.  Note that you can sort the table by any column by clicking on the header for that column, for example click on "Dist." to order rows by distance.</dd>
+
+  <dt> What are other ways to find routes?</dt>
+  <dd> Try this: http://bit.ly/19Y6iJg </dd>
+
+  <dt> ZOMG! Commodity X is illegal in system Y! </dt>
+  <dd> This can happen.  It is good practice to keep an eye on the "Illicit Goods" indicator right over your fuel guage.</dd>
+
+  <dt> What's P/T? </dt>
+  <dd> Profit per ton.  If your ship holds 500 tons, and you do one lap, you should make around 500*PPT credits.</dd>
+
+  <dt> What's P/L? </dt>
+  <dd> Estimated profit per each back-and-forth lap you do.</dd>
+
+  <dt>How do I add data?</dt>
+  <dd> Install EliteOCR (https://forums.frontier.co.uk/showthread.php?t=68771), use it at the stations you trade at, and choose "Upload to EDDN" after scanning.</dd>
+
+</dl>
+</body>
+
+</html>
