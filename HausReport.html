@@ -226,7 +226,7 @@
             var x = $("#x").val();
             var y = $("#y").val();
             var z = $("#z").val();
-            alert( " (" + x +"," + y +"," + z + ")");
+            //alert( " (" + x +"," + y +"," + z + ")");
             var filterLarge = Boolean(document.getElementById("largeShip").checked);
             //var filterLarge = Boolean($("largeShip").prop("checked", true));
 
@@ -405,7 +405,7 @@ $.when(test()).then(function (data) {
     $( "#tags" ).autocomplete({
       source: data.systems,
       select: function( event, ui ) {
-          alert( ui.item.label + " (" + ui.item.x +"," + ui.item.y +"," + ui.item.z + ")");
+          //alert( ui.item.label + " (" + ui.item.x +"," + ui.item.y +"," + ui.item.z + ")");
           $('input[name="x"]').val( ui.item.x);
           $('input[name="y"]').val( ui.item.y);
           $('input[name="z"]').val( ui.item.z);
