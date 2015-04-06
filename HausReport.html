@@ -104,60 +104,80 @@
 
     <!-- ----------------------------------------------------------------- -->
 
-    <form class="niceform">
+<div width="99%">
+<table width="100%">
+<tr>
+<td width="50%">
+    <!-- form class="niceform" -->
         <fieldset>
-            <legend>Preferences</legend>
+            <legend>Ship Specific</legend>
             <dl>
                 <dt><label for="locn">Current Location:</label></dt>
                 <dd>
-<div class="ui-widget">
-  <label for="tags">Current system:</label>
-  <input id="tags">
-<input type="hidden" id="x" name="x" value="0"><input type="hidden" id="y" name="y" value="0"><input type="hidden" id="z" name="z" value="0">
-</div>
- 
-
+			<div class="ui-widget">
+			<input id="tags" value="Sol">
+			<input type="hidden" id="x" name="x" value="0">
+			<input type="hidden" id="y" name="y" value="0">
+			<input type="hidden" id="z" name="z" value="0">
+			</div>
                 </dd>
             </dl>
 
             <dl>
-                <dt><label for="color">Ship Specifics:</label></dt>
+                <dt><label for="color">Hold Size:</label> <input type="text" id="holdSizeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
                 <dd>
-                    <label for="locn">Hold Size:</label>
-                    <input type="text" id="holdSizeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+		    <div class="ui-widget">
                     <div id="slider-holdSize"></div>
-                    <br/>
+		    </div>
+ 	        </dd>
 
-                    <label for="locn">Jump Range:</label>
-                    <input type="text" id="jumpRangeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+                <dt><label for="locn">Jump Range:</label> <input type="text" id="jumpRangeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
+                <dd>
+			<div class="ui-widget">
                     <div id="slider-jumpRange"></div>
+		    </div>
+ 	        </dd>
 
-
-                    <label for="locn">Landing Pad Size:</label>
+                <dt><label for="locn">Landing Pad Size:</dt>
+                 <dd>
+			<div class="ui-widget">
                     <input type="radio" name="shipSize" id="largeShip" value="Large" />
                     <label for="colorBlue" class="opt">Large</label>
                     <input type="radio" name="shipSize" id="mediumShip" value="Medium" />
                     <label for="colorRed" class="opt">Medium/Small</label>
+		    </div>
                 </dd>
-
-                <dt><label for="color">Route Specifics:</label></dt>
-                <dd>
-                    <label for="locn">Max Distance From You:</label>
-                    <input type="text" id="maxDistanceFromYou" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+   </fieldset>
+</td>
+<td valign="top" width="50%">
+<div style="width:100%;height:100%;overflow:hidden;">
+        <fieldset>
+            <legend>Route Specific</legend>
+                <dt><label for="color">Max Distance From You:</label> <input type="text" id="maxDistanceFromYou" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
+                <dd>                
                     <div id="slider-maxDistanceFromYou"></div>
-                    <br/>
-
-                    <label for="locn">Route Distance:</label>
-                    <input type="text" id="maxRouteDistance" readonly style="border:0; color:#f6931f; font-weight:bold;" />
+               </dd>
+                <dt><label for="color">Route Length:</label> <input type="text" id="maxRouteDistance" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
+                <dd>
                     <div id="slider-maxRouteDistance"></div>
-
                 </dd>
             </dl>
+         </fieldset>
 
-    </form>
+        <fieldset>
+            <legend>User Interface</legend>
+		<input type="checkbox" name="vehicle" value="Bike">Show route numbers<br>
+		<input type="checkbox" name="vehicle" value="Bike">Show prices<br>
+		<input type="checkbox" name="vehicle" value="Bike">Show dates<br>
+		<input type="checkbox" name="vehicle" value="Bike">Show confidence<br>
+        </fieldset>
+</div>
+    <!--/form -->
+</td>
+</tr>
+</table>
 
-
-    <button onclick="printTable(); ; return false;">Check value</button>
+    <button onclick="printTable(); ; return false;">Search for routes!</button>
 
     <!-- ----------------------------------------------------------------- -->
 
@@ -183,13 +203,13 @@
                 <th>Sell</th>
                 <th>Profit</th>
                 <th>Last Updated</th>
-                <th>DistFU</th>
-                <th>Rt.Dist</th>
+                <th>Dist.</th>
+                <th>Length</th>
                 <th>Est. Jumps</th>
-                <th>Confidence</th>
-                <th>PPT</th>
+                <th>Conf.</th>
+                <th>P/T</th>
 
-                <th>PPH</th>
+                <th>P/L</th>
             </tr>
 
         </thead>
@@ -232,13 +252,13 @@
             out += "<th>Sell</th>";
             out += "<th>Profit</th>";
             out += "<th>Last Updated</th>";
-            out += "<th>DistFU</th>";
-            out += "<th>Rt.Dist</th>";
+            out += "<th>Dist.</th>";
+            out += "<th>Length</th>";
             out += "<th>Est. Jumps</th>";
-            out += "<th>Confidence</th>";
-            out += "<th>PPT</th>";
+            out += "<th>Conf.</th>";
+            out += "<th>P/T</th>";
 
-            out += "<th>PPH</th>";
+            out += "<th>P/L</th>";
             out += "</tr>";
 
             out += "</thead>";
@@ -265,12 +285,12 @@
                                 " (" + data.trades[i].firstDist + ") " +
                                 "</td><td>" +
                                 data.trades[i].firstCommodity +
-                                "</td><td>" +
-                                data.trades[i].firstBuy +
-                                "</td><td>" +
-                                data.trades[i].firstSell +
-                                "</td><td>" +
-                                data.trades[i].firstProfit +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].firstBuy).toLocaleString() +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].firstSell).toLocaleString() +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].firstProfit).toLocaleString() +
                                 "</td><td>" +
                                 data.trades[i].firstUpdated +
                                 "</td><td>" +
@@ -280,12 +300,12 @@
                                 " (" + data.trades[i].secondDist + ") " +
                                 "</td><td>" +
                                 data.trades[i].secondCommodity +
-                                "</td><td>" +
-                                data.trades[i].secondBuy +
-                                "</td><td>" +
-                                data.trades[i].secondSell +
-                                "</td><td>" +
-                                data.trades[i].secondProfit +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].secondBuy).toLocaleString() +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].secondSell).toLocaleString() +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].secondProfit).toLocaleString() +
                                 "</td><td>" +
                                 data.trades[i].secondUpdated +
                                 "</td><td>" +
@@ -300,9 +320,9 @@
                                 Math.ceil(data.trades[i].distance / jumpRange) +
                                 "</td><td>" +
                                 data.trades[i].confidence +
-                                "</td><td>" +
-                                data.trades[i].ppt +
-                                "</td><td>" +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].ppt).toLocaleString() +
+                                "</td><td align=\"right\">" +
 
                                 (data.trades[i].ppt * cargoCapacity).toLocaleString() +
                                 "</td></tr>";
@@ -342,6 +362,7 @@ test();
 //document.write(systems);
     </script>
 
+</div>
 </body>
 
 </html>
