@@ -230,8 +230,16 @@ $('#nav-container').load('navbar.html');
     <!-- div id="placeholder"></div -->
     <script>
         function printTable() {
-            var jumpRange = 12.29;
-            var cargoCapacity = 528;
+
+            var jumpRange = 12.4;
+            var cargoCapacity = 538;
+     
+            try {
+                jumpRange = $("#slider-jumpRange").slider("value");
+                cargoCapacity = $("#slider-holdSize").slider("value");
+            } catch(err) {
+                //first page load, problem with uninitialized values
+            }	    
             var x = $("#x").val();
             var y = $("#y").val();
             var z = $("#z").val();
