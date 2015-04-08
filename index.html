@@ -12,7 +12,7 @@
     <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
     <script type="text/javascript" src="jquery.tablesorter.js"></script>
 
-
+    <link rel="stylesheet" href="myStyle.css">
 
     <title>The Haus Report</title>
 
@@ -73,8 +73,8 @@
         $(function() {
             $("#slider-maxRouteDistance").slider({
                 range: "max",
-                min: 20,
-                max: 200,
+                min: 5,
+                max: 75,
                 value: 30,
                 step: 1,
                 slide: function(event, ui) {
@@ -99,20 +99,19 @@
 </head>
 
 <body>
-<div id="nav-container"></div>
-
+The Haus Report : Data Mining Trade Routes for Elite:Dangerous <div id="nav-container" style="float:right;"></div>
 <script type="text/javascript">
 $(document).ready(function() {
 $('#nav-container').load('navbar.html');
 });
 </script>
-
+<hr>
     <!-- ----------------------------------------------------------------- -->
 
 <div width="99%">
 <table width="100%">
 <tr>
-<td width="50%">
+<td valign="top" width="50%">
     <!-- form class="niceform" -->
         <fieldset>
             <legend>Ship Specific</legend>
@@ -129,14 +128,14 @@ $('#nav-container').load('navbar.html');
             </dl>
 
             <dl>
-                <dt><label for="color">Hold Size:</label> <input type="text" id="holdSizeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
+                <dt><label for="color">Hold Size:</label> <input type="text" id="holdSizeAmount" readonly style="border:0; background:#000000; color:#f6931f; font-weight:bold;" /></dt>
                 <dd>
 		    <div class="ui-widget">
                     <div id="slider-holdSize"></div>
 		    </div>
  	        </dd>
 
-                <dt><label for="locn">Jump Range:</label> <input type="text" id="jumpRangeAmount" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
+                <dt><label for="locn">Jump Range:</label> <input type="text" id="jumpRangeAmount" readonly style="border:0; background:#000000; color:#f6931f; font-weight:bold;" /></dt>
                 <dd>
 			<div class="ui-widget">
                     <div id="slider-jumpRange"></div>
@@ -156,11 +155,12 @@ $('#nav-container').load('navbar.html');
 <div style="width:100%;height:100%;overflow:hidden;">
         <fieldset>
             <legend>Route Specific</legend>
-                <dt><label for="color">Max Distance From You:</label> <input type="text" id="maxDistanceFromYou" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
+                <dt><label for="color">Max Distance From You:</label> <input type="text" id="maxDistanceFromYou" readonly style="border:0; color:#f6931f; background:#000000; font-weight:bold;" />
+                </dt>
                 <dd>                
                     <div id="slider-maxDistanceFromYou"></div>
                </dd>
-                <dt><label for="color">Route Length:</label> <input type="text" id="maxRouteDistance" readonly style="border:0; color:#f6931f; font-weight:bold;" /></dt>
+                <dt><label for="color">Route Length:</label> <input type="text" id="maxRouteDistance" readonly style="border:0; background:#000000; color:#f6931f; font-weight:bold;" /></dt>
                 <dd>
                     <div id="slider-maxRouteDistance"></div>
                 </dd>
@@ -170,17 +170,19 @@ $('#nav-container').load('navbar.html');
         <fieldset>
             <legend>User Interface</legend>
 
-    <img src="underconst.jpg" alt="Under Construction" style="float:right;" height="75" width="75">
+    <!-- img src="underconst.jpg" alt="Under Construction" style="float:right;" height="75" width="75" -->
 		<input type="checkbox" id="showRouteNumbers" name="showRouteNumbers" value="Bike">Show route num/pad size<br>
 		<input type="checkbox" id="showPrices" name="showPrices" value="Bike">Show prices<br>
 		<input type="checkbox" id="showDates" name="showDates" value="Bike">Show dates<br>
 		<input type="checkbox" id="showConfidence" name="showConfidence" value="Bike">Show confidence<br>
         </fieldset>
-     <div align="right">
-    <button onclick="printTable(); return false;">Search for routes!</button>
-    </div>
+
 </div>
-    <!--/form -->
+     <div style="height:3em; text-align:center; ">
+<br/>
+    <button style="background-color:#FFB547;
+ font-size:14px; font-weight:bold; height:2em; margin: 0 auto; " onclick="printTable(); return false;">Search for routes!</button>
+    </div>
 </td>
 </tr>
 </table>
