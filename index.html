@@ -175,6 +175,7 @@ $('#nav-container').load('navbar.html');
 		<input type="checkbox" id="showPrices" name="showPrices" value="Bike">Show prices<br>
 		<input type="checkbox" id="showDates" name="showDates" value="Bike">Show dates<br>
 		<input type="checkbox" id="showConfidence" name="showConfidence" value="Bike">Show confidence<br>
+		<input type="checkbox" id="showSupplyDemand" name="showSupplyDemand" value="Bike">Show supply/demand<br>
         </fieldset>
 
 </div>
@@ -263,7 +264,10 @@ showRouteNumbers
 if( $('#showDates').prop('checked')){
   fsLen = fsLen + 1;
 }
-showDates
+if( $('#showSupplyDemand').prop('checked')){
+  fsLen = fsLen + 2;
+}
+
 
             out += "<th colspan=\""+ fsLen + "\">First Station</th>";
 var ssLen = 3;
@@ -272,6 +276,9 @@ if( $('#showPrices').prop('checked')){
 }
 if( $('#showDates').prop('checked')){
   ssLen = ssLen + 1;
+}
+if( $('#showSupplyDemand').prop('checked')){
+  ssLen = ssLen + 2;
 }
 
             out += "<th colspan=\"" + ssLen + "\">Second Station</th>";
@@ -293,6 +300,11 @@ if( $('#showPrices').prop('checked')){
             out += "<th>Buy</th>";
             out += "<th>Sell</th>";
 }
+if( $('#showSupplyDemand').prop('checked')){
+            out += "<th>Supply</th>";
+            out += "<th>Demand</th>";
+}
+
             out += "<th>Profit</th>";
 if( $('#showDates').prop('checked')){
             out += "<th>Last Updated</th>";
@@ -303,6 +315,11 @@ if( $('#showPrices').prop('checked')){
             out += "<th>Buy</th>";
             out += "<th>Sell</th>";
 }
+if( $('#showSupplyDemand').prop('checked')){
+            out += "<th>Supply</th>";
+            out += "<th>Demand</th>";
+}
+
             out += "<th>Profit</th>";
 if( $('#showDates').prop('checked')){
             out += "<th>Last Updated</th>";
@@ -352,6 +369,12 @@ if( $('#showPrices').prop('checked')){
                                 (data.trades[i].firstSell).toLocaleString() +
                                 "</td><td align=\"right\">";
 }
+if( $('#showSupplyDemand').prop('checked')){
+                                out = out + (data.trades[i].firstSupply).toLocaleString() +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].firstDemand).toLocaleString() +
+                                "</td><td align=\"right\">";
+}
 
                                 out = out + (data.trades[i].firstProfit).toLocaleString() +
                                 "</td><td>";
@@ -371,7 +394,12 @@ if( $('#showPrices').prop('checked')){
                                 (data.trades[i].secondSell).toLocaleString() +
                                 "</td><td align=\"right\">";
 }
-
+if( $('#showSupplyDemand').prop('checked')){
+                                out = out + (data.trades[i].secondSupply).toLocaleString() +
+                                "</td><td align=\"right\">" +
+                                (data.trades[i].secondDemand).toLocaleString() +
+                                "</td><td align=\"right\">";
+}
                                 out = out + (data.trades[i].secondProfit).toLocaleString() +
                                 "</td><td>";
 
